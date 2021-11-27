@@ -1,0 +1,166 @@
+openapi: 3.0.1
+info:
+  title: Stores Products
+  description: 'Es una API del lado del servidor (Back-End) hecha con TypeScript  Nest  NoSql  MongoDB   El propósito de dicha App  es almacenar toda mercadería de XTienda o XSupermercado en el Stock de dicho Negocio! ¡Esto facilita a la hora de saber que productos faltan y la necesidad de compras!! A su vez el Cliente puede Modificar , Borrar , y hacer Peticiones de XProducto en el sistema'
+  
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: vaponte520@gamil.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+
+  description: enterate mas sobre el codigo
+  url: https://github.com/VictorAponteParedes/Stores-Products
+  
+servers:
+- url: https://victor-aponte-portafolio.netlify.app/
+
+tags:
+- name: Productos
+  description: todas las cosas sobre nuestro productos
+  
+  externalDocs:
+    description: Sabe mas sobre ello !
+    url: https://github.com/VictorAponteParedes/Stores-Products
+paths:
+  /producto:
+    post:
+      tags:
+      - producto
+      summary: Crear un producto
+      description: Con esto puedes crear un producto
+      operationId: creacionDeProducto
+      requestBody:
+        description: Created Products object
+        content:
+          aplication/json:
+            schema:
+              $ref: '#/components/schemas/productos'
+        required: true
+      responses:
+        default:
+          description:  Producto Creado
+          content: {}
+      x-codegen-request-body-name: body
+ 
+  /producto/:
+    get:
+      tags:
+      - producto
+      summary: me retorna todos los productos
+      operationId: Return Products
+      responses:
+        default:
+          description: successful operation
+          content: {}
+          
+  /producto/{id}:
+    get:
+      tags:
+      - producto
+      summary: Obtener un producto en especifico
+      operationId: getProductByName
+      parameters:
+      - name: id
+        in: path
+        description: 'El nombre que debe ser recuperado. Utilice el usuario1 para las pruebas '
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/productos'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productos'
+        400:
+          description: Invalid username supplied
+          content: {}
+        404:
+          description: Producto no encontrado
+          content: {}
+          
+          
+          
+    put:
+      tags:
+      - producto
+      summary: Actulzar producto
+      description: Esto sólo lo puede hacer el usuario conectado.
+      operationId: actualizacion
+      parameters:
+      - name: id
+        in: path
+        description: nombre que hay que actualizar
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Actualizar los productos
+        content:
+          aplication/json:
+            schema:
+              $ref: '#/components/schemas/productos'
+        required: true
+      responses:
+        400:
+          description: Invalid user supplied
+          content: {}
+        404:
+          description: User not found
+          content: {}
+      x-codegen-request-body-name: body
+      
+      
+    delete:
+      tags:
+      - producto
+      summary: borra los productos
+      description: Borrar un productos en especifico
+      operationId: DorradorDeProducto
+      parameters:
+      - name: id
+        in: path
+        description: The name that needs to be deleted
+        required: true
+        schema:
+          type: string
+      responses:
+        404:
+          description: User not found
+          content: {}
+        200:
+          description: Producto borrado
+          
+          
+components:
+  schemas:
+    productos:
+      type: object
+      properties:
+        name:
+          type: string
+          description: El nombre del producto
+        brand:
+          type: string
+          description: La marca del producto
+        descripcion: 
+          type: string
+          description: Sobre el producto
+        price:
+          type: number
+          description: El precio del producto
+        productStatus:
+          type: integer
+          description: Product Status
+          format: int32
+          
+      xml:
+        name: productos
